@@ -1,0 +1,15 @@
+{
+  "name": "front-in-bh-management",
+  "scripts": {
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "express": "^4.15.3",
+    "next": "^3.0.1-beta.8",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "recharts": "^1.0.0-alpha.1"
+  }
+}
