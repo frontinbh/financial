@@ -15,7 +15,7 @@ const Nav = () => (
         </Link>
       </li>
       <li>
-        <Link prefetch href="/">
+        <Link prefetch href="/expense">
           <a>Despesas</a>
         </Link>
       </li>
@@ -30,6 +30,13 @@ const Nav = () => (
       :global(body) {
         margin: 0;
         font-family: -apple-system,BlinkMacSystemFont,Avenir Next,Avenir,Helvetica,sans-serif;
+      }
+      :global(input) {
+        display: inline-block;
+        margin: 0 5px;
+      }
+      :global(label) {
+        font-size: 14px;
       }
       nav {
         text-align: center;

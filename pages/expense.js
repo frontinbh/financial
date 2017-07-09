@@ -8,7 +8,7 @@ import Chart from '../components/dashboard/chart'
 import 'whatwg-fetch'
 
 export default class Dashboard extends React.Component {
-  state = { revenues: [], formValues: [] }
+  state = { expenses: [], formValues: [] }
 
   componentDidMount() {
     this.getRevenues()
@@ -19,10 +19,10 @@ export default class Dashboard extends React.Component {
   handleChangeForm = (category, key, event) => this.setState({ [key]: event.target.value })
 
   getRevenues = () => {
-    fetch('/api/forecast/revenue').then(response => {
+    fetch('/api/forecast/expenses').then(response => {
       return response.json()
-    }).then(revenues => {
-      this.setState({ revenues })
+    }).then(expenses => {
+      this.setState({ expenses })
     })
   }
 
@@ -30,7 +30,7 @@ export default class Dashboard extends React.Component {
     e.preventDefault()
     this.setState({ loading: true })
     
-    fetch('/api/forecast/categories', {
+    fetch('/api/forecast/categories-expenses', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
@@ -57,12 +57,12 @@ export default class Dashboard extends React.Component {
         name: this.state[`${category}-new-input-name`],
         quantity: this.state[`${category}-new-input-quantity`],
         pricing: this.state[`${category}-new-input-pricing`],
-        expenses: this.state[`${category}-new-input-expenses`],
-        revenue: this.state[`${category}-new-input-revenue`]
+        expenses: (parseInt(this.state[`${category}-new-input-quantity`], 10) * parseInt(this.state[`${category}-new-input-pricing`], 10)),
+        revenue: this.state[`${category}-new-input-revenue`] || 0
       }
     }
 
-    fetch('/api/forecast/revenue', {
+    fetch('/api/forecast/expenses', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
@@ -79,70 +79,75 @@ export default class Dashboard extends React.Component {
     })
   }
 
-  renderAddCategory = (revenue) => (
-    this.setState({ categoryModal: true, categoryId: revenue })
+  renderAddCategory = (expense) => (
+    this.setState({ categoryModal: true, categoryId: expense })
   )
 
-  renderInputs = (revenue, item) => {
-    const key = `${revenue.id}-${item.id}`
+  renderInputs = (expense, item) => {
+    const key = `${expense.id}-${item.id}`
     return (
       <div key={item.name}>
         <label htmlFor={`${key}-name`}>
+          nome iten
           <input
             type="text"
             id={`${key}-name`}
             name={`${key}-name`}
             defaultValue={item.name}
             value={this.state[`${key}-name`]}
-            onChange={this.handleChangeForm.bind(this, revenue.id, `${key}-name`)}
+            onChange={this.handleChangeForm.bind(this, expense.id, `${key}-name`)}
           />
         </label>
         <label htmlFor={`${key}-quantity`}>
+          quantidade
           <input
             type="number"
             id={`${key}-quantity`}
             name={`${key}-quantity`}
             defaultValue={item.quantity}
             value={this.state[`${key}-quantity`]}
-            onChange={this.handleChangeForm.bind(this, revenue.id, `${key}-quantity`)}
+            onChange={this.handleChangeForm.bind(this, expense.id, `${key}-quantity`)}
           />
         </label>
         <label htmlFor={`${key}-pricing`}>
+          preço unitario
           <input
             type="number"
             id={`${key}-pricing`}
             name={`${key}-pricing`}
             defaultValue={item.pricing}
             value={this.state[`${key}-pricing`]}
-            onChange={this.handleChangeForm.bind(this, revenue.id, `${key}-pricing`)}
+            onChange={this.handleChangeForm.bind(this, expense.id, `${key}-pricing`)}
           />
         </label>
         <label htmlFor={`${key}-expenses`}>
+          valor previsto
           <input
             type="number"
             id={`${key}-expenses`}
             name={`${key}-expenses`}
-            defaultValue={item.expenses}
-            value={this.state[`${key}-expenses`]}
-            onChange={this.handleChangeForm.bind(this, revenue.id, `${key}-expenses`)}
+            value={(parseInt(item.quantity) * parseInt(item.pricing))}
+            onChange={this.handleChangeForm.bind(this, expense.id, `${key}-expenses`)}
+            disabled={true}
           />
         </label>
         <label htmlFor={`${key}-revenue`}>
+          valor total
           <input
             type="number"
             id={`${key}-revenue`}
             name={`${key}-revenue`}
             defaultValue={item.revenue}
             value={this.state[`${key}-revenue`]}
-            onChange={this.handleChangeForm.bind(this, revenue.id, `${key}-revenue`)}
+            onChange={this.handleChangeForm.bind(this, expense.id, `${key}-revenue`)}
           />
         </label>
       </div>
     )
   }
   
-  renderNewInputs = (revenue) => {
-    const key = `${revenue.id}-new-input`
+  renderNewInputs = (expense) => {
+    const key = `${expense.id}-new-input`
     return (
       <div key={key}>
         <label htmlFor={`${key}-name`}>
@@ -153,7 +158,7 @@ export default class Dashboard extends React.Component {
             name={`${key}-name`}
             defaultValue=""
             value={this.state[`${key}-name`]}
-            onChange={this.handleChangeForm.bind(this, revenue.id, `${key}-name`)}
+            onChange={this.handleChangeForm.bind(this, expense.id, `${key}-name`)}
           />
         </label>
         <label htmlFor={`${key}-quantity`}>
@@ -164,7 +169,7 @@ export default class Dashboard extends React.Component {
             name={`${key}-quantity`}
             defaultValue=""
             value={this.state[`${key}-quantity`]}
-            onChange={this.handleChangeForm.bind(this, revenue.id, `${key}-quantity`)}
+            onChange={this.handleChangeForm.bind(this, expense.id, `${key}-quantity`)}
           />
         </label>
         <label htmlFor={`${key}-pricing`}>
@@ -175,7 +180,7 @@ export default class Dashboard extends React.Component {
             name={`${key}-pricing`}
             defaultValue=""
             value={this.state[`${key}-pricing`]}
-            onChange={this.handleChangeForm.bind(this, revenue.id, `${key}-pricing`)}
+            onChange={this.handleChangeForm.bind(this, expense.id, `${key}-pricing`)}
           />
         </label>
         <label htmlFor={`${key}-expenses`}>
@@ -184,9 +189,9 @@ export default class Dashboard extends React.Component {
             type="number"
             id={`${key}-expenses`}
             name={`${key}-expenses`}
-            defaultValue=""
-            value={this.state[`${key}-expenses`]}
-            onChange={this.handleChangeForm.bind(this, revenue.id, `${key}-expenses`)}
+            value={(parseInt(this.state[`${key}-quantity`]) * parseInt(this.state[`${key}-pricing`]))}
+            onChange={this.handleChangeForm.bind(this, expense.id, `${key}-expenses`)}
+            disabled={true}
           />
         </label>
         <label htmlFor={`${key}-revenue`}>
@@ -197,10 +202,10 @@ export default class Dashboard extends React.Component {
             name={`${key}-revenue`}
             defaultValue=""
             value={this.state[`${key}-revenue`]}
-            onChange={this.handleChangeForm.bind(this, revenue.id, `${key}-revenue`)}
+            onChange={this.handleChangeForm.bind(this, expense.id, `${key}-revenue`)}
           />
         </label>
-        <button onClick={() => { this.insertItens(revenue.id) }}>isert values</button>
+        <button onClick={() => { this.insertItens(expense.id) }}>isert values</button>
       </div>
     )
   }
@@ -212,7 +217,7 @@ export default class Dashboard extends React.Component {
         <Nav />
 
         <div className="hero">
-          <h1 className="title">Receitas</h1>
+          <h1 className="title">Despesas</h1>
 
           {
             this.state.categoryModal &&
@@ -246,18 +251,18 @@ export default class Dashboard extends React.Component {
 
           <div className="row">
             {
-              this.state.revenues.map(revenue => {
+              this.state.expenses.map(expense => {
                 return (
-                  <div key={revenue.category}>
-                    <h3>{revenue.category}</h3>
-                    {revenue.itens.map(item => this.renderInputs(revenue, item))}
+                  <div key={expense.category}>
+                    <h3>{expense.category}</h3>
+                    {expense.itens.map(item => this.renderInputs(expense, item))}
                     <br />
-                    {this.renderNewInputs(revenue)}
+                    {this.renderNewInputs(expense)}
 
                     <br /><br />
                     <div>
-                      <p>Total Previsto: {revenue.total_revenue}</p>
-                      <p>Total Previsto: {revenue.total_expenses}</p>
+                      <p>Total Previsto: {expense.total_revenue}</p>
+                      <p>Total Previsto: {expense.total_expenses}</p>
                     </div>
                   </div>
                 )

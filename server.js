@@ -12,10 +12,13 @@ app.prepare()
   const server = express()
   server.use(bodyParser.urlencoded({ extended: false }))
   server.use(bodyParser.json())
-
-  server.get('/api/forecast/expenses', require('./api/forecast/expenses'))
-  server.post('/api/forecast/categories', require('./api/forecast/add-categories'))
   
+  server.post('/api/forecast/categories', require('./api/forecast/add-categories'))
+  server.post('/api/forecast/categories-expenses', require('./api/forecast/add-categories-expenses'))
+  
+  server.post('/api/forecast/expenses', require('./api/forecast/add-expenses'))
+  server.get('/api/forecast/expenses', require('./api/forecast/expenses'))
+
   server.post('/api/forecast/revenue', require('./api/forecast/add-revenue'))
   server.get('/api/forecast/revenue', require('./api/forecast/revenue'))
   

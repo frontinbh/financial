@@ -16,7 +16,7 @@ export default () => (
             <p>Analisar custos e gastos do evento</p>
           </a>
         </Link>
-        <Link href="/">
+        <Link href="/expense">
           <a className="card">
             <h3>Visualizar/Adicionar Despesas &rarr;</h3>
             <p>custos palestrantes, infraestrutra, etc.</p>

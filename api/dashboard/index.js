@@ -15,7 +15,23 @@ const find = (db, query, callback) => {
          }
     }
   ]).toArray((err, result) => {
-      db.close()
+      callback(err, result)
+  })
+}
+
+const findExpenses = (db, query, callback) => {
+  const collection = db.collection('categories-expenses')
+  collection.aggregate([
+    {
+       $lookup:
+         {
+           from: "expenses",
+           localField: "_id",
+           foreignField: "categoryId",
+           as: "itens"
+         }
+    }
+  ]).toArray((err, result) => {
       callback(err, result)
   })
 }
@@ -31,15 +47,27 @@ module.exports = (req, res) => {
           tr: revenue.itens.map(i => parseInt(i.values.value.expenses, 10)).reduce((a, b) => a + b, 0),
         }
       })
-      
-      return res.send({
-        results: [
-          { name: 'Receitas', tp: revenues.map(x => x.tp).reduce((a,b) => a + b, 0), tr: revenues.map(x => x.tr).reduce((a,b) => a + b, 0) },
-          { name: 'Despesas', tp: 0, tr: 0 }
-        ],
-        revenueForecasts: revenues,
-        expensesForecast: []
+
+      findExpenses(db, {}, (err, result) => {
+        const expenses = result.map(expense => {
+          return {
+            name: expense.name,
+            tp: expense.itens.map(i => parseInt(i.values.value.revenue, 10)).reduce((a, b) => a + b, 0),
+            tr: expense.itens.map(i => parseInt(i.values.value.expenses, 10)).reduce((a, b) => a + b, 0),
+          }
+        })
+
+        db.close()
+        return res.send({
+          results: [
+            { name: 'Receitas', tp: revenues.map(x => x.tp).reduce((a,b) => a + b, 0), tr: revenues.map(x => x.tr).reduce((a,b) => a + b, 0) },
+            { name: 'Despesas', tp: expenses.map(x => x.tp).reduce((a,b) => a + b, 0), tr: expenses.map(x => x.tr).reduce((a,b) => a + b, 0) },
+          ],
+          revenueForecasts: revenues,
+          expensesForecast: expenses
+        })
       })
+      
     })
   })
 }

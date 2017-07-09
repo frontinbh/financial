@@ -4,7 +4,7 @@ const assert = require('assert')
 const url = process.env.MONGO_DB;
 
 const insert = (db, body, callback) => {
-  const collection = db.collection('expense')
+  const collection = db.collection('expenses')
   collection.insertOne({ categoryId: ObjectId(body.category), values: body}, (err, result) => {
     db.close()
     callback(err, result)
