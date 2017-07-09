@@ -1,6 +1,7 @@
 
 const express = require('express')
 const next = require('next')
+const bodyParser = require('body-parser')
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
@@ -9,34 +10,18 @@ const handle = app.getRequestHandler()
 app.prepare()
 .then(() => {
   const server = express()
+  server.use(bodyParser.urlencoded({ extended: false }))
+  server.use(bodyParser.json())
 
-  server.post('/api/forecast/expenses', (req, res) => {
-      
-  })
+  server.get('/api/forecast/expenses', require('./api/forecast/expenses'))
+  server.post('/api/forecast/categories', require('./api/forecast/add-categories'))
+  
+  server.post('/api/forecast/revenue', require('./api/forecast/add-revenue'))
+  server.get('/api/forecast/revenue', require('./api/forecast/revenue'))
+  
+  server.get('/api/dashboard', require('./api/dashboard'))
 
-  server.get('/api/dashboard', (req, res) => {
-    return res.send({
-        results: [
-            { name: 'Receitas', tp: 94700, tr: 17900 },
-            { name: 'Despesas', tp: 38300, tr: 9200 }
-        ],
-        revenueForecasts: [
-            { name: 'Ingressos', tp: 94700, tr: 17900 },
-            { name: 'Patrocínio', tp: 38300, tr: 9200 },
-            { name: 'Consumo', tp: 38300, tr: 9200 }
-        ],
-        expensesForecast: [
-            { name: 'Local', tp: 94700, tr: 17900 },
-            { name: 'Palestrantes', tp: 38300, tr: 9200 },
-            { name: 'Infraestrutura', tp: 380, tr: 900 },
-            { name: 'Publicidade', tp: 380, tr: 900 }
-        ]
-    })
-  })
-
-  server.get('*', (req, res) => {
-    return handle(req, res)
-  })
+  server.get('*', (req, res) => handle(req, res))
 
   server.listen(3000, (err) => {
     if (err) throw err

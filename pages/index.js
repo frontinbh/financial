@@ -18,13 +18,13 @@ export default () => (
         </Link>
         <Link href="/">
           <a className="card">
-            <h3>Adicionar Despesas &rarr;</h3>
+            <h3>Visualizar/Adicionar Despesas &rarr;</h3>
             <p>custos palestrantes, infraestrutra, etc.</p>
           </a>
         </Link>
-        <Link href="/">
+        <Link href="/revenue">
           <a className="card">
-            <h3>Adicionar Receita &rarr;</h3>
+            <h3>Visualizar/Adicionar Receita &rarr;</h3>
             <p>custos palestrantes, infraestrutra, etc.</p>
           </a>
         </Link>

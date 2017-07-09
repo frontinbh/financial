@@ -20,7 +20,7 @@ const Nav = () => (
         </Link>
       </li>
       <li>
-        <Link prefetch href="/">
+        <Link prefetch href="/revenue">
           <a>Receitas</a>
         </Link>
       </li>
