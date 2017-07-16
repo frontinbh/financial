@@ -1,13 +1,13 @@
 const MongoClient = require('mongodb').MongoClient
 const url = process.env.MONGO_DB
 
-const find = (db, query, callback) => {
-  const collection = db.collection('categories-revenues')
+const find = (db, query, collectionName, type, callback) => {
+  const collection = db.collection(collectionName)
   collection.aggregate([
     {
        $lookup:
          {
-           from: "revenues",
+           from: type,
            localField: "_id",
            foreignField: "categoryId",
            as: "itens"
@@ -19,9 +19,9 @@ const find = (db, query, callback) => {
   })
 }
 
-module.exports = (req, res) => {
+module.exports = (collection, type, query = {}) => {
   MongoClient.connect(url, (err, db) => {
-    find(db, {}, (err, result) => {
+    find(db, query, collection, type, (err, result) => {
       const revenues = result.map(revenue => {
         return {
           id: revenue._id,

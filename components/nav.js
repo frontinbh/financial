@@ -2,62 +2,24 @@ import Head from './head'
 import Link from 'next/link'
 
 const Nav = () => (
-  <nav>
-    <ul>
-      <li>
-        <Link href="/">
-          <a>Home</a>
+  <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
+    <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span className="navbar-toggler-icon"></span>
+    </button>
+    <a className="navbar-brand" href="#">FrontInBH Financial</a>
+    <div className="collapse navbar-collapse" id="navbarNav">
+      <ul className="navbar-nav">
+        <Link className="nav-item" href="/dashboard">
+          <a className="nav-link">Dashboard</a>
         </Link>
-      </li>
-      <li>
-        <Link prefetch href="/dashboard">
-          <a>Dashboard</a>
+        <Link className="nav-item" href="/expense">
+          <a className="nav-link">Nova despesas</a>
         </Link>
-      </li>
-      <li>
-        <Link prefetch href="/expense">
-          <a>Despesas</a>
+        <Link className="nav-item" href="/revenue">
+          <a className="nav-link">Nova receita</a>
         </Link>
-      </li>
-      <li>
-        <Link prefetch href="/revenue">
-          <a>Receitas</a>
-        </Link>
-      </li>
-    </ul>
-
-    <style jsx>{`
-      :global(body) {
-        margin: 0;
-        font-family: -apple-system,BlinkMacSystemFont,Avenir Next,Avenir,Helvetica,sans-serif;
-      }
-      :global(input) {
-        display: inline-block;
-        margin: 0 5px;
-      }
-      :global(label) {
-        font-size: 14px;
-      }
-      nav {
-        text-align: center;
-      }
-      ul {
-        display: flex;
-        justify-content: space-between;
-      }
-      nav > ul {
-        padding: 4px 16px;
-      }
-      li {
-        display: flex;
-        padding: 6px 8px;
-      }
-      a {
-        color: #067df7;
-        text-decoration: none;
-        font-size: 13px;
-      }
-    `}</style>
+      </ul>
+    </div>
   </nav>
 )
 

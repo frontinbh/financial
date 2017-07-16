@@ -3,7 +3,7 @@ const assert = require('assert')
 const url = process.env.MONGO_DB;
 
 const insert = (db, body, callback) => {
-  const collection = db.collection('categories')
+  const collection = db.collection('categories-revenues')
   collection.findOne({ name: body.name }, (err, result) => {
     if (result) {
       db.close()

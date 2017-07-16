@@ -3,12 +3,12 @@ const assert = require('assert')
 const url = process.env.MONGO_DB
 
 const find = (db, query, callback) => {
-  const collection = db.collection('categories')
+  const collection = db.collection('categories-revenues')
   collection.aggregate([
     {
        $lookup:
          {
-           from: "revenue",
+           from: "revenues",
            localField: "_id",
            foreignField: "categoryId",
            as: "itens"
@@ -43,8 +43,8 @@ module.exports = (req, res) => {
       const revenues = result.map(revenue => {
         return {
           name: revenue.name,
-          tp: revenue.itens.map(i => parseInt(i.values.value.revenue, 10)).reduce((a, b) => a + b, 0),
-          tr: revenue.itens.map(i => parseInt(i.values.value.expenses, 10)).reduce((a, b) => a + b, 0),
+          tr: revenue.itens.map(i => parseInt(i.values.value.revenue, 10)).reduce((a, b) => a + b, 0),
+          tp: revenue.itens.map(i => parseInt(i.values.value.expenses, 10)).reduce((a, b) => a + b, 0),
         }
       })
 
@@ -52,16 +52,24 @@ module.exports = (req, res) => {
         const expenses = result.map(expense => {
           return {
             name: expense.name,
-            tp: expense.itens.map(i => parseInt(i.values.value.revenue, 10)).reduce((a, b) => a + b, 0),
-            tr: expense.itens.map(i => parseInt(i.values.value.expenses, 10)).reduce((a, b) => a + b, 0),
+            tr: expense.itens.map(i => parseInt(i.values.value.revenue, 10)).reduce((a, b) => a + b, 0),
+            tp: expense.itens.map(i => parseInt(i.values.value.expenses, 10)).reduce((a, b) => a + b, 0),
           }
         })
 
         db.close()
         return res.send({
           results: [
-            { name: 'Receitas', tp: revenues.map(x => x.tp).reduce((a,b) => a + b, 0), tr: revenues.map(x => x.tr).reduce((a,b) => a + b, 0) },
-            { name: 'Despesas', tp: expenses.map(x => x.tp).reduce((a,b) => a + b, 0), tr: expenses.map(x => x.tr).reduce((a,b) => a + b, 0) },
+            {
+              name: 'Receitas', 
+              tp: revenues.map(x => x.tp).reduce((a,b) => a + b, 0),
+              tr: revenues.map(x => x.tr).reduce((a,b) => a + b, 0)
+            },
+            {
+              name: 'Despesas',
+              tp: expenses.map(x => x.tp).reduce((a,b) => a + b, 0),
+              tr: expenses.map(x => x.tr).reduce((a,b) => a + b, 0)
+            },
           ],
           revenueForecasts: revenues,
           expensesForecast: expenses
