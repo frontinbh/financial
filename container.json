@@ -1,0 +1,4 @@
+{
+    "id": "dashboard",
+    "type": "wedeploy/node:latest"
+}
