@@ -1,4 +1,4 @@
 {
     "id": "dashboard",
-    "type": "wedeploy/node:latest"
+    "type": "wedeploy/nodejs:latest"
 }
