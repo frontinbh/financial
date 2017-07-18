@@ -2,6 +2,6 @@
     "id": "dashboard",
     "type": "wedeploy/nodejs:latest",
     "hooks": {
-        "build": "npm install"
+        "build": "npm install && npm build"
     }
 }
