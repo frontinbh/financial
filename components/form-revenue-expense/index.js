@@ -112,7 +112,7 @@ export default class Dashboard extends React.Component {
   )
 
   renderInputs = (category, item) => {
-    const key = `${category.id.substr(0, 12)}-${item.id.substr(0, 6)}`
+    const key = `${category.id}-${item.id}`
     const quantity = this.state[`quantity-${key}`] || item.quantity
     const pricing = this.state[`pricing-${key}`] || item.pricing
     const total = (parseFloat(quantity) * parseFloat(pricing)).toLocaleString('pt-BR', {
