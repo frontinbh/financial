@@ -7,6 +7,8 @@ const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })
 const handle = app.getRequestHandler()
 
+const PORT = process.env.PORT || 3000
+
 app.prepare()
 .then(() => {
   const server = express()
@@ -28,8 +30,8 @@ app.prepare()
 
   server.get('*', (req, res) => handle(req, res))
 
-  server.listen(80, (err) => {
+  server.listen(PORT, (err) => {
     if (err) throw err
-    console.log('> Ready on http://localhost:80')
+    console.log(`> Ready on http://localhost:${PORT}`)
   })
 })
