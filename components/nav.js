@@ -12,11 +12,11 @@ const Nav = () => (
         <Link className="nav-item" href="/dashboard">
           <a className="nav-link">Dashboard</a>
         </Link>
-        <Link className="nav-item" href="/expense">
-          <a className="nav-link">Nova despesas</a>
-        </Link>
         <Link className="nav-item" href="/revenue">
-          <a className="nav-link">Nova receita</a>
+          <a className="nav-link">Receita</a>
+        </Link>
+        <Link className="nav-item" href="/expense">
+          <a className="nav-link">Despesas</a>
         </Link>
       </ul>
     </div>
