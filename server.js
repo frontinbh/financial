@@ -15,7 +15,7 @@ app.prepare()
   server.use(bodyParser.urlencoded({ extended: false }))
   server.use(bodyParser.json())
   
-  server.post('/api/forecast/categories', require('./api/forecast/add-categories-revenues'))
+  server.post('/api/forecast/categories-revenue', require('./api/forecast/add-categories-revenues'))
   server.post('/api/forecast/categories-expenses', require('./api/forecast/add-categories-expenses'))
   
   server.post('/api/forecast/expenses', require('./api/forecast/add-expenses'))
