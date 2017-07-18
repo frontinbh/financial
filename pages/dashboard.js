@@ -23,15 +23,15 @@ export default class Dashboard extends React.Component {
         <Nav />
 
         <div className="container">
-          <div className="row">
-            <div className="col-12">
+          <div className="row" style={{ marginTop: 30 }}>
+            <div className="col-12" style={{ marginBottom: 40 }}>
               <Chart name="Resultados" data={this.state.results} />
             </div>
             <div className="col-6">
-              <Chart name="Previsão de Receitas" data={this.state.revenueForecasts} />
+              <Chart name="Receitas" data={this.state.revenueForecasts} />
             </div>
             <div className="col-6">
-              <Chart name="Previsão de Despesas" data={this.state.expensesForecast} />
+              <Chart name="Despesas" data={this.state.expensesForecast} />
             </div>
           </div>
 
