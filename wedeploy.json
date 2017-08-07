@@ -1,6 +1,6 @@
 {
-    "id": "dashboard",
-    "type": "wedeploy/nodejs:latest",
+    "id": "financial",
+    "image": "wedeploy/nodejs:latest",
     "hooks": {
         "build": "npm install && npm run build"
     }
