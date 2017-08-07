@@ -13,5 +13,6 @@ RUN npm build
 
 # Bundle app source
 ADD . $WEDEPLOY_APP_DIRECTORY
+ADD .next $WEDEPLOY_APP_DIRECTORY
 EXPOSE 80
 CMD [ "npm", "start" ]
