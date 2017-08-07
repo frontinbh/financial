@@ -9,10 +9,9 @@ WORKDIR $WEDEPLOY_APP_DIRECTORY
 ADD package.json $WEDEPLOY_APP_DIRECTORY
 ENV NODE_ENV production
 RUN npm install
-RUN npm build
+RUN npm run build
 
 # Bundle app source
 ADD . $WEDEPLOY_APP_DIRECTORY
-ADD .next $WEDEPLOY_APP_DIRECTORY
 EXPOSE 80
 CMD [ "npm", "start" ]
