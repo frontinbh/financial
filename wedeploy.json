@@ -1,7 +1,3 @@
 {
-    "id": "financial",
-    "image": "wedeploy/nodejs:latest",
-    "hooks": {
-        "build": "npm install && npm run build"
-    }
+    "id": "financial"
 }
