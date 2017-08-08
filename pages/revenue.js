@@ -8,7 +8,7 @@ export default class Revenues extends React.Component {
   render() {
     return (
       <div>
-        <Head title="Dasboard" />
+        <Head title="Financial Revenues" />
         <Nav />
         <Form iten='revenue' title='Receitas' />
       </div>

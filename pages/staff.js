@@ -83,7 +83,7 @@ export default class Dashboard extends React.Component {
   render() {
     return (
       <div>
-        <Head title="Staffs" />
+        <Head title="Financial Staffs" />
         <Nav />
         <div className="container">
           <div className="row" style={{ marginTop: 30 }}>

@@ -20,7 +20,7 @@ export default class Dashboard extends React.Component {
   render() {
     return (
       <div>
-        <Head title="Dasboard" />
+        <Head title="Financial Dasboard" />
         <Nav />
 
         <div className="container">
