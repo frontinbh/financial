@@ -36,6 +36,13 @@ const findExpenses = (db, query, callback) => {
   })
 }
 
+const findCashbacks = (db, query, callback) => {
+  const collection = db.collection('staff')
+  collection.find({}).toArray((err, result) => {
+      callback(err, result)
+  })
+}
+
 module.exports = (req, res) => {
 
    MongoClient.connect(url, (err, db) => {
@@ -57,23 +64,40 @@ module.exports = (req, res) => {
           }
         })
 
-        db.close()
-        return res.send({
-          results: [
-            {
-              name: 'Receitas', 
-              tp: revenues.map(x => x.tp).reduce((a,b) => a + b, 0),
-              tr: revenues.map(x => x.tr).reduce((a,b) => a + b, 0)
-            },
-            {
-              name: 'Despesas',
-              tp: expenses.map(x => x.tp).reduce((a,b) => a + b, 0),
-              tr: expenses.map(x => x.tr).reduce((a,b) => a + b, 0)
-            },
-          ],
-          revenueForecasts: revenues,
-          expensesForecast: expenses
+        findCashbacks(db, {}, (err, cashbacks) => {
+          db.close()
+          const cashbacksCount = cashbacks.map(cash => {
+            return {
+              name: cash.staff,
+              tr: cash.pricing,
+              tp: cash.pricing,
+            }
+          })
+
+          return res.send({
+            results: [
+              {
+                name: 'Receitas', 
+                tp: revenues.map(x => x.tp).reduce((a,b) => a + b, 0),
+                tr: revenues.map(x => x.tr).reduce((a,b) => a + b, 0)
+              },
+              {
+                name: 'Despesas',
+                tp: expenses.map(x => x.tp).reduce((a,b) => a + b, 0),
+                tr: expenses.map(x => x.tr).reduce((a,b) => a + b, 0)
+              },
+              {
+                name: 'Reembolsos',
+                tp: cashbacks.map(x => x.pricing).reduce((a,b) => a + b, 0),
+                tr: cashbacks.map(x => x.pricing).reduce((a,b) => a + b, 0)
+              },
+            ],
+            revenueForecasts: revenues,
+            expensesForecast: expenses,
+            cashbacks: cashbacksCount
+          })
         })
+
       })
       
     })
