@@ -38,9 +38,6 @@ export default class Dashboard extends React.Component {
             <div className="col-6">
               <Chart name="Despesas" data={this.state.expensesForecast} />
             </div>
-            <div className="col-6">
-              <Chart name="Reembolsos" data={this.state.cashbacks} />
-            </div>
           </div>
 
         </div>

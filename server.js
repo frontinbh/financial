@@ -27,6 +27,7 @@ app.prepare()
   server.get('/api/forecast/revenue', require('./api/forecast/revenue'))
   
   server.post('/api/staff', require('./api/staff'))
+  server.get('/api/staff', require('./api/staff/get'))
   server.get('/api/sign-s3', require('./api/s3'));
   
   server.get('/api/dashboard', require('./api/dashboard'))

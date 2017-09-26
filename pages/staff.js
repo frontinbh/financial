@@ -6,7 +6,7 @@ import StaffSplit from '../components/staff-split'
 import 'whatwg-fetch'
 
 export default class Dashboard extends React.Component {
-  state = { message: '', staff: '', pricing: 0 }
+  state = { message: '', staff: '', pricing: 0, listStaffs: null }
   componentDidMount() {
     document.getElementById("file-input").onchange = () => {
       const files = document.getElementById('file-input').files
@@ -16,6 +16,15 @@ export default class Dashboard extends React.Component {
       }
       this.getSignedRequest(file)
     }
+
+    fetch('/api/staff').then(response => {
+      return response.json()
+    }).then(data => {
+      const { result, status } = data
+      if (status) {
+        this.setState({ listStaffs: result })
+      }
+    })
   }
 
   handleChange = (e) => {
@@ -113,6 +122,26 @@ export default class Dashboard extends React.Component {
                 <h4>{this.state.message}</h4>
               </div>
             </div>
+            {
+              this.state.listStaffs &&
+                <div>
+                  {Object.keys(this.state.listStaffs).map(name => {
+                    return (
+                      <div style={{ marginBottom: 30, borderBottom: '2px solid #ccc' }}>
+                        <h4>{name} - {this.state.listStaffs[name].map(i => parseInt(i.pricing, 10)).reduce((a, b) => a + b, 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</h4>
+                        {this.state.listStaffs[name].map(i => {
+                          return (
+                            <div style={{ display: 'inline-block', margin: '0 5px 10px 0' }}>
+                              <p>{i.pricing.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
+                              <a href={i.url} target='_blank'><img src={i.url} width='270' /></a>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    )
+                  })}
+                </div>
+            }
           </div>
         </div>
       </div>
