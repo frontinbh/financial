@@ -4,10 +4,6 @@ const assert = require('assert')
 const url = process.env.MONGO_DB;
 
 const update = (db, body, id, callback) => {
-  console.log(
-    body,
-    id
-  )
   const collection = db.collection('expenses')
   collection.updateOne(
     { _id: ObjectId(id) },

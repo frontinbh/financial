@@ -9,14 +9,17 @@ const Nav = () => (
     <a className="navbar-brand" href="#">FrontInBH Financial</a>
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
-        <Link className="nav-item" href="/dashboard">
+        <Link prefetch className="nav-item" href="/dashboard">
           <a className="nav-link">Dashboard</a>
         </Link>
-        <Link className="nav-item" href="/revenue">
+        <Link prefetch className="nav-item" href="/revenue">
           <a className="nav-link">Receita</a>
         </Link>
-        <Link className="nav-item" href="/expense">
+        <Link prefetch className="nav-item" href="/expense">
           <a className="nav-link">Despesas</a>
+        </Link>
+        <Link prefetch className="nav-item" href="/staff">
+          <a className="nav-link">Organizadores</a>
         </Link>
       </ul>
     </div>

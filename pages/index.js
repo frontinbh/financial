@@ -4,7 +4,7 @@ import Nav from '../components/nav'
 
 export default () => (
   <div>
-    <Head title="Home" />
+    <Head title="Financial Front in BH" />
 
     <div className="hero">
       <h1 className="title">Front in BH Panel</h1>
